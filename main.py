@@ -17,31 +17,35 @@ class Application(tk.Tk):
         self.totalpages = 0
         self.export_format = tk.StringVar(value="csv")
 
-        # Zone de texte pour afficher les résultats
-        self.txt_results = scrolledtext.ScrolledText(self, width=50, height=15, bg='black', fg='white', insertbackground='white')
-        self.txt_results.place(relx=0.65, rely=0.15, anchor="n")
+        self.txt_results = scrolledtext.ScrolledText(self, width=50, height=15, bg='black', fg='white',
+                                                     insertbackground='white')
+        self.txt_results.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")  # sticky pour occuper l'espace
 
         # Cadre pour les boutons
         self.frame_actions = tk.Frame(self)
-        self.frame_actions.place(relx=0.2, rely=0.5, anchor="center")
+        self.frame_actions.grid(row=1, column=0, padx=10, pady=10, sticky="ew")  # Stretch horizontale
 
         btn_style = {"width": 20, "bg": "black", "fg": "white"}
 
-        self.btn_import = tk.Button(self.frame_actions, text="Importer un fichier", command=self.import_file, **btn_style)
-        self.btn_import.pack(pady=5)
+        self.btn_import = tk.Button(self.frame_actions, text="Importer un fichier", command=self.import_file,
+                                    **btn_style)
+        self.btn_import.pack(side=tk.LEFT, padx=5)
 
-        self.btn_process = tk.Button(self.frame_actions, text="Traiter le fichier", command=self.process_file, state=tk.DISABLED, **btn_style)
-        self.btn_process.pack(pady=5)
+        self.btn_process = tk.Button(self.frame_actions, text="Traiter le fichier", command=self.process_file,
+                                     state=tk.DISABLED, **btn_style)
+        self.btn_process.pack(side=tk.LEFT, padx=5)
 
-        self.btn_export = tk.Button(self.frame_actions, text="Exporter le fichier", command=self.export_file, state=tk.DISABLED, **btn_style)
-        self.btn_export.pack(pady=5)
+        self.btn_export = tk.Button(self.frame_actions, text="Exporter le fichier", command=self.export_file,
+                                    state=tk.DISABLED, **btn_style)
+        self.btn_export.pack(side=tk.LEFT, padx=5)
 
-        self.btn_clear = tk.Button(self.frame_actions, text="Effacer tout", command=self.clear_all, state=tk.DISABLED, **btn_style)
-        self.btn_clear.pack(pady=5)
+        self.btn_clear = tk.Button(self.frame_actions, text="Effacer tout", command=self.clear_all, state=tk.DISABLED,
+                                   **btn_style)
+        self.btn_clear.pack(side=tk.LEFT, padx=5)
 
         # Cadre pour les options d'exportation
         self.frame_format = tk.Frame(self)
-        self.frame_format.place(relx=0.2, rely=0.75, anchor="center")
+        self.frame_format.grid(row=2, column=0, padx=10, pady=10, sticky="ew")  # Stretch horizontale
 
         self.lbl_format = tk.Label(self.frame_format, text="Format d'exportation :")
         self.lbl_format.pack(anchor="w")
@@ -51,6 +55,10 @@ class Application(tk.Tk):
 
         self.radio_xlsx = tk.Radiobutton(self.frame_format, text="XLSX", variable=self.export_format, value="xlsx")
         self.radio_xlsx.pack(anchor="w")
+
+        # Configurer les colonnes et lignes pour l'agrandissement
+        self.grid_columnconfigure(0, weight=1, uniform="group")
+        self.grid_rowconfigure(0, weight=1, uniform="group")
 
     def import_file(self):
         self.filepath = filedialog.askopenfilename(
